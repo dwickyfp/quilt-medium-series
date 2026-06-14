@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "jobs": [
+    { "id": "load_batch1", "name": "load_batch1", "dirty": false },
+    { "id": "load_batch2_upsert", "name": "load_batch2_upsert", "dirty": false }
+  ],
+  "activeJobId": "load_batch1"
+}

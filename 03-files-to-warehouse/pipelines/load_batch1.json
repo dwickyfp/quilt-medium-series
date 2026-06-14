@@ -1,0 +1,61 @@
+{
+  "edges": [
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e1",
+      "source": "s1",
+      "sourceHandle": "main",
+      "target": "k1",
+      "targetHandle": "main"
+    }
+  ],
+  "name": "load_batch1",
+  "nodes": [
+    {
+      "data": {
+        "componentId": "src.csv",
+        "label": "orders_batch1.csv",
+        "properties": {
+          "delimiter": ",",
+          "hasHeader": true,
+          "path": "data/orders_batch1.csv"
+        }
+      },
+      "id": "s1",
+      "position": {
+        "x": 80,
+        "y": 140
+      },
+      "type": "source"
+    },
+    {
+      "data": {
+        "componentId": "snk.postgres",
+        "label": "orders (upsert)",
+        "properties": {
+          "conflictColumns": [
+            "order_id"
+          ],
+          "database": "warehouse",
+          "host": "127.0.0.1",
+          "mode": "upsert",
+          "password": "quilt_demo_pw",
+          "port": 55433,
+          "schemaName": "public",
+          "tableName": "orders",
+          "username": "quilt"
+        }
+      },
+      "id": "k1",
+      "position": {
+        "x": 420,
+        "y": 140
+      },
+      "type": "sink"
+    }
+  ],
+  "version": 1,
+  "id": "p_63788_3"
+}

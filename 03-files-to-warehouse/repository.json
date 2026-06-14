@@ -1,0 +1,9 @@
+[
+  { "id": "root", "name": "03-files-to-warehouse", "type": "project" },
+  { "id": "pipelines", "name": "Pipelines", "type": "folder", "parentId": "root" },
+  { "id": "connections", "name": "Connections", "type": "folder", "parentId": "root" },
+  { "id": "contexts", "name": "Contexts", "type": "folder", "parentId": "root" },
+  { "id": "routines", "name": "Routines", "type": "folder", "parentId": "root" },
+  { "id": "load_batch1", "name": "load_batch1", "type": "pipeline", "parentId": "pipelines" },
+  { "id": "load_batch2_upsert", "name": "load_batch2_upsert", "type": "pipeline", "parentId": "pipelines" }
+]
