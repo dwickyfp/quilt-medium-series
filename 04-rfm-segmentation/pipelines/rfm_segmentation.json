@@ -1,0 +1,443 @@
+{
+  "edges": [
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e1",
+      "source": "s1",
+      "sourceHandle": "main",
+      "target": "n1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e2",
+      "source": "n1",
+      "sourceHandle": "main",
+      "target": "n2",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e3",
+      "source": "n2",
+      "sourceHandle": "main",
+      "target": "n3",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e4",
+      "source": "n3",
+      "sourceHandle": "main",
+      "target": "a1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e5",
+      "source": "a1",
+      "sourceHandle": "main",
+      "target": "a2",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e6",
+      "source": "a2",
+      "sourceHandle": "main",
+      "target": "a3",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e7",
+      "source": "a3",
+      "sourceHandle": "main",
+      "target": "a4",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e8",
+      "source": "a4",
+      "sourceHandle": "main",
+      "target": "a5",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e9",
+      "source": "a5",
+      "sourceHandle": "main",
+      "target": "a6",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e10",
+      "source": "a6",
+      "sourceHandle": "main",
+      "target": "a7",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e11",
+      "source": "a7",
+      "sourceHandle": "main",
+      "target": "a8",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e12",
+      "source": "a8",
+      "sourceHandle": "main",
+      "target": "a9",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e13",
+      "source": "a9",
+      "sourceHandle": "main",
+      "target": "d1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e14",
+      "source": "d1",
+      "sourceHandle": "main",
+      "target": "k1",
+      "targetHandle": "main"
+    }
+  ],
+  "name": "rfm_segmentation",
+  "nodes": [
+    {
+      "data": {
+        "componentId": "src.postgres",
+        "label": "sales",
+        "properties": {
+          "database": "retail",
+          "host": "127.0.0.1",
+          "mode": "table",
+          "password": "quilt_demo_pw",
+          "port": 55434,
+          "schemaName": "public",
+          "tableName": "sales",
+          "username": "quilt"
+        }
+      },
+      "id": "s1",
+      "position": {
+        "x": 0,
+        "y": 200
+      },
+      "type": "source"
+    },
+    {
+      "data": {
+        "componentId": "qa.standardize",
+        "label": "Normalize status",
+        "properties": {
+          "case": "lower",
+          "collapseWhitespace": true,
+          "columns": [
+            "status"
+          ],
+          "trim": true
+        }
+      },
+      "id": "n1",
+      "position": {
+        "x": 260,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.filter",
+        "label": "Paid only",
+        "properties": {
+          "predicate": "status = 'paid'"
+        }
+      },
+      "id": "n2",
+      "position": {
+        "x": 520,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.groupby",
+        "label": "Aggregate per user",
+        "properties": {
+          "aggregations": [
+            {
+              "column": "sale_id",
+              "function": "count",
+              "outputName": "count_sale_id"
+            },
+            {
+              "column": "amount",
+              "function": "sum",
+              "outputName": "sum_amount"
+            },
+            {
+              "column": "amount",
+              "function": "avg",
+              "outputName": "avg_amount"
+            },
+            {
+              "column": "sale_date",
+              "function": "max",
+              "outputName": "max_sale_date"
+            }
+          ],
+          "groupKeys": [
+            "user_id"
+          ]
+        }
+      },
+      "id": "n3",
+      "position": {
+        "x": 780,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.addcol",
+        "label": "recency_days",
+        "properties": {
+          "expression": "CAST(date_diff('day', max_sale_date, DATE '2025-12-31') AS BIGINT)",
+          "name": "recency_days",
+          "type": "int64"
+        }
+      },
+      "id": "a1",
+      "position": {
+        "x": 1040,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.addcol",
+        "label": "frequency",
+        "properties": {
+          "expression": "count_sale_id",
+          "name": "frequency",
+          "type": "int64"
+        }
+      },
+      "id": "a2",
+      "position": {
+        "x": 1300,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.addcol",
+        "label": "monetary",
+        "properties": {
+          "expression": "sum_amount",
+          "name": "monetary",
+          "type": "float64"
+        }
+      },
+      "id": "a3",
+      "position": {
+        "x": 1560,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.addcol",
+        "label": "avg_order_value",
+        "properties": {
+          "expression": "avg_amount",
+          "name": "avg_order_value",
+          "type": "float64"
+        }
+      },
+      "id": "a4",
+      "position": {
+        "x": 1820,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.addcol",
+        "label": "freq_q",
+        "properties": {
+          "expression": "NTILE(4) OVER (ORDER BY frequency)",
+          "name": "freq_q",
+          "type": "int64"
+        }
+      },
+      "id": "a5",
+      "position": {
+        "x": 2080,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.addcol",
+        "label": "mon_q",
+        "properties": {
+          "expression": "NTILE(4) OVER (ORDER BY monetary)",
+          "name": "mon_q",
+          "type": "int64"
+        }
+      },
+      "id": "a6",
+      "position": {
+        "x": 2340,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.addcol",
+        "label": "aov_q",
+        "properties": {
+          "expression": "NTILE(4) OVER (ORDER BY avg_order_value)",
+          "name": "aov_q",
+          "type": "int64"
+        }
+      },
+      "id": "a7",
+      "position": {
+        "x": 2600,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.addcol",
+        "label": "segment_label",
+        "properties": {
+          "expression": "CASE WHEN freq_q <= 2 AND aov_q >= 3 THEN 'rare_big_basket' WHEN freq_q >= 3 AND mon_q = 4 THEN 'frequent_whale' WHEN freq_q >= 3 AND aov_q <= 2 THEN 'frequent_small_basket' ELSE 'standard' END",
+          "name": "segment_label",
+          "type": "string"
+        }
+      },
+      "id": "a8",
+      "position": {
+        "x": 2860,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.addcol",
+        "label": "tier_flag",
+        "properties": {
+          "expression": "CASE WHEN mon_q = 4 THEN 'gold' WHEN mon_q >= 2 THEN 'silver' ELSE 'brown' END",
+          "name": "tier_flag",
+          "type": "string"
+        }
+      },
+      "id": "a9",
+      "position": {
+        "x": 3120,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.dropcol",
+        "label": "drop helpers",
+        "properties": {
+          "columns": [
+            "count_sale_id",
+            "sum_amount",
+            "avg_amount",
+            "max_sale_date",
+            "freq_q",
+            "mon_q",
+            "aov_q"
+          ]
+        }
+      },
+      "id": "d1",
+      "position": {
+        "x": 3380,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "snk.postgres",
+        "label": "user_segment",
+        "properties": {
+          "database": "retail",
+          "host": "127.0.0.1",
+          "mode": "truncate",
+          "password": "quilt_demo_pw",
+          "port": 55434,
+          "schemaName": "public",
+          "tableName": "user_segment",
+          "username": "quilt"
+        }
+      },
+      "id": "k1",
+      "position": {
+        "x": 3640,
+        "y": 200
+      },
+      "type": "sink"
+    }
+  ],
+  "version": 1,
+  "id": "p_63788_5"
+}

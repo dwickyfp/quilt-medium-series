@@ -17,3 +17,6 @@
 
 # Postgres data dirs from docker-compose
 **/pgdata/
+
+# Python venvs (created by seed scripts)
+**/.venv/
