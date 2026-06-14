@@ -1,0 +1,192 @@
+{
+  "edges": [
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e1",
+      "source": "s1",
+      "sourceHandle": "main",
+      "target": "n1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e2",
+      "source": "n1",
+      "sourceHandle": "main",
+      "target": "n2",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e3",
+      "source": "n2",
+      "sourceHandle": "main",
+      "target": "n3",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e4",
+      "source": "n3",
+      "sourceHandle": "main",
+      "target": "k1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "reject"
+      },
+      "id": "e5",
+      "source": "n1",
+      "sourceHandle": "reject",
+      "target": "d1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "reject"
+      },
+      "id": "e6",
+      "source": "n2",
+      "sourceHandle": "reject",
+      "target": "d2",
+      "targetHandle": "main"
+    }
+  ],
+  "name": "clean_orders",
+  "nodes": [
+    {
+      "data": {
+        "componentId": "src.csv",
+        "label": "orders_dirty.csv",
+        "properties": {
+          "delimiter": ",",
+          "hasHeader": true,
+          "path": "data/orders_dirty.csv"
+        }
+      },
+      "id": "s1",
+      "position": {
+        "x": 80,
+        "y": 200
+      },
+      "type": "source"
+    },
+    {
+      "data": {
+        "componentId": "qa.notnull",
+        "label": "Require status",
+        "properties": {
+          "columns": [
+            "status"
+          ],
+          "onFail": "reject"
+        }
+      },
+      "id": "n1",
+      "position": {
+        "x": 360,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "qa.range",
+        "label": "Quantity 1..1000",
+        "properties": {
+          "column": "quantity",
+          "inclusive": true,
+          "max": 1000,
+          "min": 1,
+          "onFail": "reject"
+        }
+      },
+      "id": "n2",
+      "position": {
+        "x": 640,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "qa.standardize",
+        "label": "Normalize status",
+        "properties": {
+          "case": "lower",
+          "collapseWhitespace": true,
+          "columns": [
+            "status"
+          ],
+          "trim": true
+        }
+      },
+      "id": "n3",
+      "position": {
+        "x": 920,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "snk.parquet",
+        "label": "clean_orders.parquet",
+        "properties": {
+          "compression": "zstd",
+          "mode": "overwrite",
+          "path": "output/clean_orders.parquet"
+        }
+      },
+      "id": "k1",
+      "position": {
+        "x": 1200,
+        "y": 200
+      },
+      "type": "sink"
+    },
+    {
+      "data": {
+        "componentId": "ctl.deadletter",
+        "label": "Missing status",
+        "properties": {
+          "destination": "dead_letter/missing_status.csv",
+          "format": "csv"
+        }
+      },
+      "id": "d1",
+      "position": {
+        "x": 640,
+        "y": 400
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "ctl.deadletter",
+        "label": "Bad quantity",
+        "properties": {
+          "destination": "dead_letter/bad_quantity.csv",
+          "format": "csv"
+        }
+      },
+      "id": "d2",
+      "position": {
+        "x": 920,
+        "y": 400
+      },
+      "type": "transform"
+    }
+  ],
+  "version": 1,
+  "id": "p_63788_2"
+}

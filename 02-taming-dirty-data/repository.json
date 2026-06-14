@@ -1,0 +1,8 @@
+[
+  { "id": "root", "name": "02-taming-dirty-data", "type": "project" },
+  { "id": "pipelines", "name": "Pipelines", "type": "folder", "parentId": "root" },
+  { "id": "connections", "name": "Connections", "type": "folder", "parentId": "root" },
+  { "id": "contexts", "name": "Contexts", "type": "folder", "parentId": "root" },
+  { "id": "routines", "name": "Routines", "type": "folder", "parentId": "root" },
+  { "id": "clean_orders", "name": "clean_orders", "type": "pipeline", "parentId": "pipelines" }
+]
