@@ -1,0 +1,269 @@
+{
+  "edges": [
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e1",
+      "source": "s1",
+      "sourceHandle": "main",
+      "target": "z1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e2",
+      "source": "z1",
+      "sourceHandle": "main",
+      "target": "z2",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e3",
+      "source": "z2",
+      "sourceHandle": "main",
+      "target": "z3",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e4",
+      "source": "z3",
+      "sourceHandle": "main",
+      "target": "z4",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e5",
+      "source": "z4",
+      "sourceHandle": "main",
+      "target": "k1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e6",
+      "source": "z4",
+      "sourceHandle": "main",
+      "target": "p1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "model"
+      },
+      "id": "e7",
+      "source": "k1",
+      "sourceHandle": "model",
+      "target": "p1",
+      "targetHandle": "model"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e8",
+      "source": "p1",
+      "sourceHandle": "main",
+      "target": "d1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e9",
+      "source": "d1",
+      "sourceHandle": "main",
+      "target": "k2",
+      "targetHandle": "main"
+    }
+  ],
+  "name": "kmeans_clustering",
+  "nodes": [
+    {
+      "data": {
+        "componentId": "src.postgres",
+        "label": "customer_features",
+        "properties": {
+          "database": "retail",
+          "host": "127.0.0.1",
+          "mode": "table",
+          "password": "quilt_demo_pw",
+          "port": 55435,
+          "schemaName": "public",
+          "tableName": "customer_features",
+          "username": "quilt"
+        }
+      },
+      "id": "s1",
+      "position": {
+        "x": 0,
+        "y": 200
+      },
+      "type": "source"
+    },
+    {
+      "data": {
+        "componentId": "xf.num.zscore",
+        "label": "z recency",
+        "properties": {
+          "column": "recency_days",
+          "outputColumn": "recency_z"
+        }
+      },
+      "id": "z1",
+      "position": {
+        "x": 240,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.num.zscore",
+        "label": "z frequency",
+        "properties": {
+          "column": "frequency",
+          "outputColumn": "frequency_z"
+        }
+      },
+      "id": "z2",
+      "position": {
+        "x": 480,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.num.zscore",
+        "label": "z monetary",
+        "properties": {
+          "column": "monetary",
+          "outputColumn": "monetary_z"
+        }
+      },
+      "id": "z3",
+      "position": {
+        "x": 720,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "xf.num.zscore",
+        "label": "z aov",
+        "properties": {
+          "column": "avg_order_value",
+          "outputColumn": "aov_z"
+        }
+      },
+      "id": "z4",
+      "position": {
+        "x": 960,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "ml.learner.kmeans",
+        "label": "k-Means (k=4)",
+        "properties": {
+          "featureColumns": [
+            "recency_z",
+            "frequency_z",
+            "monetary_z",
+            "aov_z"
+          ],
+          "k": 4,
+          "maxIter": 100
+        }
+      },
+      "id": "k1",
+      "position": {
+        "x": 1200,
+        "y": 360
+      },
+      "type": "ml"
+    },
+    {
+      "data": {
+        "componentId": "ml.predict",
+        "label": "Assign cluster",
+        "properties": {
+          "outputColumn": "cluster_id"
+        }
+      },
+      "id": "p1",
+      "position": {
+        "x": 1200,
+        "y": 200
+      },
+      "type": "ml"
+    },
+    {
+      "data": {
+        "componentId": "xf.dropcol",
+        "label": "Keep id + cluster",
+        "properties": {
+          "columns": [
+            "recency_days",
+            "frequency",
+            "monetary",
+            "avg_order_value",
+            "true_profile",
+            "recency_z",
+            "frequency_z",
+            "monetary_z",
+            "aov_z"
+          ]
+        }
+      },
+      "id": "d1",
+      "position": {
+        "x": 1440,
+        "y": 200
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "snk.postgres",
+        "label": "customer_cluster",
+        "properties": {
+          "database": "retail",
+          "host": "127.0.0.1",
+          "mode": "truncate",
+          "password": "quilt_demo_pw",
+          "port": 55435,
+          "schemaName": "public",
+          "tableName": "customer_cluster",
+          "username": "quilt"
+        }
+      },
+      "id": "k2",
+      "position": {
+        "x": 1680,
+        "y": 200
+      },
+      "type": "sink"
+    }
+  ],
+  "version": 1,
+  "id": "p_97713_1"
+}

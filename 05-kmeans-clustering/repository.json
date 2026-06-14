@@ -1,0 +1,8 @@
+[
+  { "id": "root", "name": "05-kmeans-clustering", "type": "project" },
+  { "id": "pipelines", "name": "Pipelines", "type": "folder", "parentId": "root" },
+  { "id": "connections", "name": "Connections", "type": "folder", "parentId": "root" },
+  { "id": "contexts", "name": "Contexts", "type": "folder", "parentId": "root" },
+  { "id": "routines", "name": "Routines", "type": "folder", "parentId": "root" },
+  { "id": "kmeans_clustering", "name": "kmeans_clustering", "type": "pipeline", "parentId": "pipelines" }
+]

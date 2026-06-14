@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: quilt-s5-postgres
+    environment:
+      POSTGRES_USER: quilt
+      POSTGRES_PASSWORD: quilt_demo_pw
+      POSTGRES_DB: retail
+    ports:
+      - "55435:5432"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d:ro
+      - ./pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U quilt -d retail"]
+      interval: 3s
+      timeout: 3s
+      retries: 10

@@ -12,9 +12,9 @@ Each folder is a **self-contained Quilt workspace** plus the Medium article that
 | 2 | [`02-taming-dirty-data`](02-taming-dirty-data/) | Taming Dirty Data | Validate, standardize, and quarantine bad rows | Files only |
 | 3 | [`03-files-to-warehouse`](03-files-to-warehouse/) | From Files to a Warehouse | Load and upsert into PostgreSQL | Docker (Postgres) |
 | 4 | [`04-rfm-segmentation`](04-rfm-segmentation/) | Customer Segmentation with RFM | Aggregate, score recency/frequency/monetary, label segments | Docker (Postgres) |
-| 5 | _planned_ | Churn Prediction with In-Engine ML | Train, predict, and score a classifier on the canvas | Docker (Postgres) |
+| 5 | [`05-kmeans-clustering`](05-kmeans-clustering/) | Customer Clustering with k-Means | Standardize, fit a k-Means model in-engine, assign clusters | Docker (Postgres) |
 
-> **Series 5 is deferred.** It's slated to cover churn prediction with Quilt's in-engine machine-learning nodes (train → predict → score). Those nodes are on Quilt's roadmap but not yet runnable, so rather than fake the result, this series ships when the ML components land. Series 1–4 are complete, and every pipeline in them was executed and verified against real engine output (row counts checked, outputs queried back from Parquet / PostgreSQL).
+> All five series are complete, and **every pipeline was executed and verified against real engine output** — row counts checked, outputs queried back from Parquet / PostgreSQL, and (Series 5) clusters cross-tabbed against planted ground truth. The k-Means model in Series 5 is real in-engine ML (`smartcore`), not a SQL substitute.
 
 ## How each workspace is laid out
 
