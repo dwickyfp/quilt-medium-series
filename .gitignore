@@ -1,0 +1,19 @@
+# Quilt run artifacts
+**/logs/
+**/.quilt-cache/
+**/*.duckdb
+**/*.duckdb.wal
+
+# Pipeline outputs (regenerated on run)
+**/output/
+**/*.parquet
+**/dead_letter/
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Postgres data dirs from docker-compose
+**/pgdata/

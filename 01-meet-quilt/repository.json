@@ -1,0 +1,37 @@
+[
+  {
+    "id": "root",
+    "name": "01-meet-quilt",
+    "type": "project"
+  },
+  {
+    "id": "pipelines",
+    "name": "Pipelines",
+    "type": "folder",
+    "parentId": "root"
+  },
+  {
+    "id": "connections",
+    "name": "Connections",
+    "type": "folder",
+    "parentId": "root"
+  },
+  {
+    "id": "contexts",
+    "name": "Contexts",
+    "type": "folder",
+    "parentId": "root"
+  },
+  {
+    "id": "routines",
+    "name": "Routines",
+    "type": "folder",
+    "parentId": "root"
+  },
+  {
+    "id": "orders_to_parquet",
+    "name": "orders_to_parquet",
+    "type": "pipeline",
+    "parentId": "pipelines"
+  }
+]

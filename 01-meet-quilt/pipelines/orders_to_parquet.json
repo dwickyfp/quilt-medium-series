@@ -1,0 +1,78 @@
+{
+  "edges": [
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e1",
+      "source": "s1",
+      "sourceHandle": "main",
+      "target": "t1",
+      "targetHandle": "main"
+    },
+    {
+      "data": {
+        "connectionType": "main"
+      },
+      "id": "e2",
+      "source": "t1",
+      "sourceHandle": "main",
+      "target": "k1",
+      "targetHandle": "main"
+    }
+  ],
+  "name": "orders_to_parquet",
+  "nodes": [
+    {
+      "data": {
+        "componentId": "src.csv",
+        "label": "orders.csv",
+        "properties": {
+          "delimiter": ",",
+          "hasHeader": true,
+          "path": "data/orders.csv"
+        }
+      },
+      "id": "s1",
+      "position": {
+        "x": 80,
+        "y": 140
+      },
+      "type": "source"
+    },
+    {
+      "data": {
+        "componentId": "xf.filter",
+        "label": "Paid only",
+        "properties": {
+          "predicate": "status = 'paid'"
+        }
+      },
+      "id": "t1",
+      "position": {
+        "x": 360,
+        "y": 140
+      },
+      "type": "transform"
+    },
+    {
+      "data": {
+        "componentId": "snk.parquet",
+        "label": "paid_orders.parquet",
+        "properties": {
+          "compression": "zstd",
+          "mode": "overwrite",
+          "path": "output/paid_orders.parquet"
+        }
+      },
+      "id": "k1",
+      "position": {
+        "x": 640,
+        "y": 140
+      },
+      "type": "sink"
+    }
+  ],
+  "version": 1,
+  "id": "p_63788_1"
+}
