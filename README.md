@@ -11,8 +11,10 @@ Each folder is a **self-contained Quilt workspace** plus the Medium article that
 | 1 | [`01-meet-quilt`](01-meet-quilt/) | Meet Quilt: Local-First Visual ETL | Your first pipeline — CSV → filter → Parquet | Files only |
 | 2 | [`02-taming-dirty-data`](02-taming-dirty-data/) | Taming Dirty Data | Validate, standardize, and quarantine bad rows | Files only |
 | 3 | [`03-files-to-warehouse`](03-files-to-warehouse/) | From Files to a Warehouse | Load and upsert into PostgreSQL | Docker (Postgres) |
-| 4 | [`04-rfm-segmentation`](04-rfm-segmentation/) | Customer Segmentation with RFM | Join sources, score recency/frequency/monetary | Docker (Postgres) |
-| 5 | [`05-churn-prediction-ml`](05-churn-prediction-ml/) | Churn Prediction with In-Engine ML | Train, predict, and score a classifier on the canvas | Docker (Postgres) |
+| 4 | [`04-rfm-segmentation`](04-rfm-segmentation/) | Customer Segmentation with RFM | Aggregate, score recency/frequency/monetary, label segments | Docker (Postgres) |
+| 5 | _planned_ | Churn Prediction with In-Engine ML | Train, predict, and score a classifier on the canvas | Docker (Postgres) |
+
+> **Series 5 is deferred.** It's slated to cover churn prediction with Quilt's in-engine machine-learning nodes (train → predict → score). Those nodes are on Quilt's roadmap but not yet runnable, so rather than fake the result, this series ships when the ML components land. Series 1–4 are complete, and every pipeline in them was executed and verified against real engine output (row counts checked, outputs queried back from Parquet / PostgreSQL).
 
 ## How each workspace is laid out
 
